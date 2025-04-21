@@ -1,5 +1,4 @@
 """Заводим нужные импорты."""
-
 from random import choice, randint
 
 import pygame
@@ -41,9 +40,8 @@ class GameObject:
         self.position = ((SCREEN_WIDTH // 2), (SCREEN_HEIGHT // 2))
         self.body_color = None
 
-    """Объявляем метод-заглушку рисования."""
-
     def draw(self):
+        """Объявляем метод-заглушку рисования."""
         pass
 
 
@@ -59,31 +57,33 @@ class Apple(GameObject):
         self.body_color = APPLE_COLOR
         self.randomize_position()
 
-    """Рандомайзер определяет случайное положение клетки GRID_SIZE на поле."""
-
     def randomize_position(self):
+        """Рандомайзер определяет случайное положение клетки GRID_SIZE на поле."""
         self.position = (
             randint(0, GRID_WIDTH - 1) * GRID_SIZE,
             randint(0, GRID_HEIGHT - 1) * GRID_SIZE
         )
 
-    """Переопределяем заглушку рисования из базового класса и отрисовываем яблоко"""
-
     def draw(self):
+        """Переопределяем заглушку рисования из базового класса и отрисовываем яблоко"""
         rect = pygame.Rect(self.position, (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(screen, self.body_color, rect)
         pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
 
 
 class Snake(GameObject):
-    """Создаем дочерний Змею
+    """
+    Создаем дочерний Змею
     маг метод инит
     - присваиваем цвет змейке
     - устанавливаем дефолт длину тела
-    - согласно ТЗ и практике удобства устанавливаем дефолт атрибут позиции змейки как список кортежей
+    - согласно ТЗ и практике удобства устанавливаем
+    дефолт атрибут позиции змейки как список кортежей
     - устанавливаем дефолт направление с первого запуска игры - RIGHT
-    - устанавливаем атрибут следущего направления змейки как заглушку для будущего переопределния
-    - устанавливаем атрибут хвоста змейки как заглушку для будущего переопределния.
+    - устанавливаем атрибут следущего направления змейки
+    как заглушку для будущего переопределния
+    - устанавливаем атрибут хвоста змейки как
+    заглушку для будущего переопределния.
     """
 
     def __init__(self):
@@ -95,19 +95,18 @@ class Snake(GameObject):
         self.next_direction = None
         self.last = None
 
-    """Метод класса змейки отвечающий за сброс характеристик змейки в дефолт в случае если змейка укусит себя."""
-
     def reset(self):
+        """Метод класса змейки отвечающий за
+        сброс характеристик змейки."""
         self.length = 1
         self.positions = [((SCREEN_WIDTH // 2), (SCREEN_HEIGHT // 2))]
         self.direction = choice((UP, DOWN, LEFT, RIGHT))
 
-    """Метод отрисовки
-    - тела змейки
-    - головы змейки
-    - затирания хвоста змейки."""
-
     def draw(self):
+        """Метод отрисовки
+            - тела змейки
+            - головы змейки
+            - затирания хвоста змейки."""
         for position in self.positions[:-1]:
             rect = (pygame.Rect(position, (GRID_SIZE, GRID_SIZE)))
             pygame.draw.rect(screen, self.body_color, rect)
@@ -121,23 +120,21 @@ class Snake(GameObject):
             last_rect = pygame.Rect(self.last, (GRID_SIZE, GRID_SIZE))
             pygame.draw.rect(screen, BOARD_BACKGROUND_COLOR, last_rect)
 
-    """Метод возвращающий позицию головы змейки."""
-
     def get_head_position(self):
+        """Метод возвращающий позицию головы змейки."""
         return self.positions[0]
 
-    """Метод обновления направления после нажатия на кнопку."""
-
     def update_direction(self):
+        """Метод обновления направления после нажатия на кнопку."""
         if self.next_direction:
             self.direction = self.next_direction
             self.next_direction = None
 
-    """Обновляет позицию змейки (координаты каждой секции), добавляя новую голову в начало списка positions 
-    и удаляя последний элемент, если длина змейки не увеличилась.
-    """
-
     def move(self):
+        """Обновляет позицию змейки (координаты каждой секции),
+        добавляя новую голову в начало списка positions
+        и удаляя последний элемент, если длина змейки не увеличилась.
+        """
         d_head_x, d_head_y = self.get_head_position()
         self.positions.insert(0, (
             (d_head_x + self.direction[0] * GRID_SIZE) % SCREEN_WIDTH,
@@ -149,10 +146,8 @@ class Snake(GameObject):
             self.last = []
 
 
-"""Функция отвечающая за взаимодействие игрока с клавиатурой."""
-
-
 def handle_keys(game_object):
+    """Функция отвечающая за взаимодействие игрока с клавиатурой."""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -194,9 +189,11 @@ def main():
         snake.update_direction()
         snake.move()
 
-        """Если змейка съела яблоко - добавляем к змейке ячейку и добавляем новое яблоко на поле.
+        """Если змейка съела яблоко - добавляем к змейке ячейку
+        и добавляем новое яблоко на поле.
         ---------------------
-        Если змейка врезалась в себя - скидываем змейку в дефолт и заливаем поле в черный цвет (визуально готовим
+        Если змейка врезалась в себя - скидываем змейку 
+        в дефолт и заливаем поле в черный цвет (визуально готовим
         игрока к новой игре).
         """
 
