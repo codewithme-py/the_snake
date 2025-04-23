@@ -112,7 +112,9 @@ class Snake(GameObject):
             pg.draw.rect(screen, self.body_color, rect)
             pg.draw.rect(screen, BORDER_COLOR, rect, 1)
 
-        head_rect = pg.Rect(Snake.get_head_position(self), (GRID_SIZE, GRID_SIZE))
+        head_rect = pg.Rect(
+            Snake.get_head_position(self),
+            (GRID_SIZE, GRID_SIZE))
         pg.draw.rect(screen, self.body_color, head_rect)
         pg.draw.rect(screen, BORDER_COLOR, head_rect, 1)
 
@@ -147,10 +149,11 @@ class Snake(GameObject):
         else:
             self.last = None
 
-
 def handle_keys(game_object):
-    # Функция отвечающая за взаимодействие игрока с клавиатурой
-    # И ожидающая прерывания программы посредством ESC.
+    """
+    Функция отвечающая за взаимодействие игрока с клавиатурой.
+    и ожидающая прерывания программы посредством ESC.
+    """
     for event in pg.event.get():
         if (event.type == pg.QUIT
                 or (event.type == pg.KEYDOWN
@@ -167,11 +170,12 @@ def handle_keys(game_object):
             elif event.key == pg.K_RIGHT and game_object.direction != LEFT:
                 game_object.next_direction = RIGHT
 
-
 def main():
-    # Инит pygame
-    # Экземпляр класса змейка.
-    # Экземпляр класса яблоко.
+    """
+    Инит pygame.
+    Экземпляр класса змейка.
+    Экземпляр класса яблоко.
+    """
     pg.init()
     snake = Snake()
     apple = Apple(occupied_points=snake.positions)
