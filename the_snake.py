@@ -16,6 +16,7 @@ BOARD_BACKGROUND_COLOR = (0, 0, 0)
 BORDER_COLOR = (93, 216, 228)
 APPLE_COLOR = (255, 0, 0)
 SNAKE_COLOR = (0, 255, 0)
+MIDDLE = ((SCREEN_WIDTH // 2), (SCREEN_HEIGHT // 2))
 SPEED = 10
 # Настройка игрового окна.
 # Даем заголовок.
@@ -32,9 +33,10 @@ class GameObject:
     - и заглушку цвета.
     """
 
-    def __init__(self, body_color = None):
-        self.position = ((SCREEN_WIDTH // 2), (SCREEN_HEIGHT // 2))
+    def __init__(self, position=MIDDLE, length=None, body_color=None):
+        self.position = position
         self.body_color = body_color
+        self.length = length
 
     def draw(self):
         """Объявляем метод-заглушку рисования."""
@@ -48,8 +50,8 @@ class Apple(GameObject):
     - вызываем рандомайзер яблока на игровом поле.
     """
 
-    def __init__(self, occupied_points = None):
-        super().__init__(body_color = APPLE_COLOR)
+    def __init__(self, occupied_points=None):
+        super().__init__(body_color=APPLE_COLOR)
         self.randomize_position(occupied_points or [])
 
     def randomize_position(self, occupied_points):
@@ -79,14 +81,13 @@ class Snake(GameObject):
     """
     Создаем дочерний Змею.
     маг метод инит.
-    - присваиваем атрибуты дочернему классу
+    - присваиваем атрибуты дочернему классу.
     """
 
     def __init__(self):
-        super().__init__(body_color = SNAKE_COLOR)
-        self.length = 1
-        self.positions = [((SCREEN_WIDTH // 2), (SCREEN_HEIGHT // 2))]
-        self.direction = RIGHT # Предусмотрено ТЗ
+        super().__init__(position=MIDDLE, length=1, body_color=SNAKE_COLOR)
+        self.reset()
+        self.direction = RIGHT  # Предусмотрено ТЗ.
         self.next_direction = None
         self.last = None
 
@@ -96,7 +97,7 @@ class Snake(GameObject):
         сброс характеристик змейки.
         """
         self.length = 1
-        self.positions = [((SCREEN_WIDTH // 2), (SCREEN_HEIGHT // 2))]
+        self.positions = [self.position]
         self.direction = choice((UP, DOWN, LEFT, RIGHT))
 
     def draw(self):
@@ -148,8 +149,8 @@ class Snake(GameObject):
 
 
 def handle_keys(game_object):
-    # Функция отвечающая за взаимодействие игрока с клавиатурой.
-    # И ожидающая прерывания программы посредством ESC
+    # Функция отвечающая за взаимодействие игрока с клавиатурой
+    # И ожидающая прерывания программы посредством ESC.
     for event in pg.event.get():
         if (event.type == pg.QUIT
                 or (event.type == pg.KEYDOWN
@@ -168,12 +169,12 @@ def handle_keys(game_object):
 
 
 def main():
-    # Инит pg
-    # Экземпляр класса змейка
-    # Экземпляр класса яблоко
+    # Инит pygame
+    # Экземпляр класса змейка.
+    # Экземпляр класса яблоко.
     pg.init()
     snake = Snake()
-    apple = Apple(occupied_points = snake.positions)
+    apple = Apple(occupied_points=snake.positions)
     while True:
         # Помещаем в бесконечный цикл:
         # скорость движения змейки
@@ -182,7 +183,7 @@ def main():
         # отрисовку змейки
         # функцию апдейта направления змейки
         # функцию движения змейки
-        #-----------------------------------------------
+        # ------------блок if elif----------------------
         # подруб обновления игрового поля согласно ФПС.
         clock.tick(SPEED)
         handle_keys(snake)
