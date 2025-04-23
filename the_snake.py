@@ -149,6 +149,7 @@ class Snake(GameObject):
         else:
             self.last = None
 
+
 def handle_keys(game_object):
     """Функция отвечающая за взаимодействие игрока с клавиатурой.
     и ожидающая прерывания программы посредством ESC.
@@ -168,6 +169,7 @@ def handle_keys(game_object):
                 game_object.next_direction = LEFT
             elif event.key == pg.K_RIGHT and game_object.direction != LEFT:
                 game_object.next_direction = RIGHT
+
 
 def main():
     """Инит pygame.
