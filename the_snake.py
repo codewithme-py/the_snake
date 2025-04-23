@@ -150,11 +150,9 @@ class Snake(GameObject):
             self.last = None
 
 def handle_keys(game_object):
-    """
-    Функция отвечающая за взаимодействие игрока с клавиатурой.
+    """Функция отвечающая за взаимодействие игрока с клавиатурой.
     и ожидающая прерывания программы посредством ESC.
     """
-
     for event in pg.event.get():
         if (event.type == pg.QUIT
                 or (event.type == pg.KEYDOWN
@@ -172,12 +170,10 @@ def handle_keys(game_object):
                 game_object.next_direction = RIGHT
 
 def main():
-    """
-    Инит pygame.
+    """Инит pygame.
     Экземпляр класса змейка.
     Экземпляр класса яблоко.
     """
-
     pg.init()
     snake = Snake()
     apple = Apple(occupied_points=snake.positions)
