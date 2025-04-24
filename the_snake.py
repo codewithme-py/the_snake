@@ -37,7 +37,6 @@ class GameObject:
         self.position = MIDDLE
         self.body_color = body_color
 
-
     def draw(self):
         """Объявляем метод-заглушку рисования."""
 
@@ -87,7 +86,6 @@ class Snake(GameObject):
         super().__init__(body_color=SNAKE_COLOR)
         self.reset()
         self.direction = RIGHT  # Предусмотрено ТЗ.
-
 
     def reset(self):
         """
