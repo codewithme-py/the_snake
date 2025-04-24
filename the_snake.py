@@ -33,14 +33,13 @@ class GameObject:
     - и заглушку цвета.
     """
 
-    def __init__(self, position=MIDDLE, length=None, body_color=None):
-        self.position = position
+    def __init__(self, body_color=None):
+        self.position = MIDDLE
         self.body_color = body_color
-        self.length = length
+
 
     def draw(self):
         """Объявляем метод-заглушку рисования."""
-        pass
 
 
 class Apple(GameObject):
@@ -85,11 +84,10 @@ class Snake(GameObject):
     """
 
     def __init__(self):
-        super().__init__(position=MIDDLE, length=1, body_color=SNAKE_COLOR)
+        super().__init__(body_color=SNAKE_COLOR)
         self.reset()
         self.direction = RIGHT  # Предусмотрено ТЗ.
-        self.next_direction = None
-        self.last = None
+
 
     def reset(self):
         """
@@ -97,6 +95,8 @@ class Snake(GameObject):
         сброс характеристик змейки.
         """
         self.length = 1
+        self.next_direction = None
+        self.last = None
         self.positions = [self.position]
         self.direction = choice((UP, DOWN, LEFT, RIGHT))
 
@@ -204,7 +204,7 @@ def main():
         # в дефолт и заливаем поле в черный цвет (визуально готовим
         # игрока к новой игре)
         # исключая занимания змейки и яблока одной клетки.
-        elif snake.get_head_position() in snake.positions[1:]:
+        elif snake.get_head_position() in snake.positions[3:]:
             snake.reset()
             screen.fill(BOARD_BACKGROUND_COLOR)
             apple.randomize_position(snake.positions)
